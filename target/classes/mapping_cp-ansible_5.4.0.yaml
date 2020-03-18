@@ -1,0 +1,24 @@
+---
+zookeeper_default:
+  expression: ([\w.]+)=(.*)
+  key_formatter: zookeeper.vars.zookeeper.properties.[$1]
+  value_formatter: $2
+zookeeper_lookups:
+- property: clientPort
+  key_formatter: all.vars.zookeeper.properties.clientPort
+- expression: server.([0-9]+)=([a-zA-Z0-9.-_]+):([0-9]+):([0-9]+)
+  key_formatter: zookeeper.vars.zookeeper_peer_port
+  value_formatter: $3
+- expression: server.([0-9]+)=([a-zA-Z0-9.-_]+):([0-9]+):([0-9]+)
+  key_formatter: zookeeper.vars.zookeeper_leader_port
+  value_formatter: $4
+
+kafka_broker_default:
+  expression: ([\w.]+)=(.*)
+  key_formatter: kafka_broker.vars.kafka_broker.properties.[$1]
+  value_formatter: $2
+kafka_broker_lookups:
+- property: zookeeper.connect
+  drop: true
+- property: broker.id
+  drop: true
